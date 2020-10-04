@@ -113,10 +113,5 @@ $Footer += @"
 </footer>
 "@
 
-
-
-
 $Report = ConvertTo-Html -Title 'Windows System Report' -Body $Header,$Report,$Footer -CssUri .\styles.css
-
-
 $Report | Out-File -FilePath $ReportName
