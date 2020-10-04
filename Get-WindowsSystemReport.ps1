@@ -1,6 +1,7 @@
 ### Variables for Reporting File ### 
 $GeneratedDate = Get-Date -Format "MM-dd-yyyy HH:mm"
 $ReportName = 'Windows_System_Report.html'
+$ReportStyles = Get-Content .\styles.css
 
 #### System Information Collection ####
 $ComputerInfo = Get-ComputerInfo
@@ -12,8 +13,6 @@ $HardDrives = Get-CimInstance win32_logicaldisk # This is an array of objects an
 $VideoCards = Get-CimInstance Win32_VideoController # This is an array of objects and needs to be iterated 
 ### Process Information 
 $Processes = Get-Process | Sort PagedMemorySize -Descending | Select -First 10
-
-echo $Processes
 
 # Check if report was ran previously, if so remove old report so we can recreate the file
 if ([System.IO.File]::Exists($ReportName)) {
@@ -113,5 +112,8 @@ $Footer += @"
 </footer>
 "@
 
-$Report = ConvertTo-Html -Title 'Windows System Report' -Body $Header,$Report,$Footer -CssUri .\styles.css
+
+$Report = ConvertTo-Html -Head "<style>$($ReportStyles)</style>" -Title 'Windows System Report' -Body $Header,$Report,$Footer 
+
+
 $Report | Out-File -FilePath $ReportName
