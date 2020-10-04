@@ -10,6 +10,10 @@ $InstalledProcessors = $ComputerInfo.CsProcessors # This is an array of objects 
 $HardDrives = Get-CimInstance win32_logicaldisk # This is an array of objects and needs to be iterated through
 ### Video Card Statistics 
 $VideoCards = Get-CimInstance Win32_VideoController # This is an array of objects and needs to be iterated 
+### Process Information 
+$Processes = Get-Process | Sort PagedMemorySize -Descending | Select -First 10
+
+echo $Processes
 
 # Check if report was ran previously, if so remove old report so we can recreate the file
 if ([System.IO.File]::Exists($ReportName)) {
@@ -81,6 +85,26 @@ foreach ($card in $VideoCards) {
     $v++
 }
 
+$Report += @"
+    <h3>Top Ten System Processes</h3>
+    <table class="indent-table">
+        <tr>
+            <th>Process Name</th><th>Process ID</th><th>Memory Used</th>
+        </tr>
+"@
+
+foreach($Process in $Processes) {
+    $Report += @"
+        <tr>
+            <td><span>$($Process.Name)</span></td><td><span>$($Process.Id)</span></td><td><span>$([math]::Round(($Process.PagedMemorySize / 1024 / 1024), 2)) MB</span></td>
+        </tr>
+"@
+}
+
+$Report += @"
+        </table>
+"@
+
 # Export a custom footer for our page 
 $Footer += @"
 </main>
@@ -88,6 +112,8 @@ $Footer += @"
     <p>Report Ran On: $GeneratedDate</p>
 </footer>
 "@
+
+
 
 
 $Report = ConvertTo-Html -Title 'Windows System Report' -Body $Header,$Report,$Footer -CssUri .\styles.css

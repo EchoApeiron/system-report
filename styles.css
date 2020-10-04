@@ -8,6 +8,7 @@
 }
 
 body {
+    background-color: #a5a5a5;
     display: flex; 
     flex-direction: column;
     width: 100vw;
@@ -23,8 +24,8 @@ body {
 }
 
 .report {
-    background-color: #bbbbbb; 
-    width: 70vw; 
+    background-color: #80c1ff; 
+    width: 30vw; 
     padding: 0 2em 3em 2em; 
     align-items: center;
 }
@@ -46,6 +47,21 @@ span {
 .indent {
     margin-left: 1em; 
 }
+
+table, th, td { 
+    border: 1px solid black; 
+    border-collapse: collapse;
+}
+
+th, td { 
+    padding: .25em .75em;
+}
+
+.indent-table { 
+    margin-top: .5em; 
+    margin-left: 2em; 
+}
+
 
 .footer {
     background-color: #004074;
