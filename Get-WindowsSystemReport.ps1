@@ -12,7 +12,7 @@ $HardDrives = Get-CimInstance win32_logicaldisk # This is an array of objects an
 ### Video Card Statistics 
 $VideoCards = Get-CimInstance Win32_VideoController # This is an array of objects and needs to be iterated 
 ### Process Information 
-$Processes = Get-Process | Sort PagedMemorySize -Descending | Select -First 10
+$Processes = Get-Process | Sort-Object PagedMemorySize -Descending | Select-Object -First 10
 
 # Check if report was ran previously, if so remove old report so we can recreate the file
 if ([System.IO.File]::Exists($ReportName)) {
