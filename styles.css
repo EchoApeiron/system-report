@@ -1,0 +1,56 @@
+@import url(https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap);
+
+* {
+    font-family:  'Titillium Web', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex; 
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+}
+
+.masthead {
+    background-color: #004074;
+    color: #b8b8b8;
+    width: 100vw; 
+    text-align: center;
+    padding: 1em; 
+}
+
+.report {
+    background-color: #bbbbbb; 
+    width: 70vw; 
+    padding: 0 2em 3em 2em; 
+    align-items: center;
+}
+
+.report h1,h2,h3,h4,h5 {
+    padding-top: 1.5em;
+    padding-bottom: .25em;  
+}
+
+.report p {
+    padding: 0 2em; 
+}
+
+span {
+    color: #363636;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.indent {
+    margin-left: 1em; 
+}
+
+.footer {
+    background-color: #004074;
+    color: #b8b8b8;
+    width: 100vw; 
+    padding: 2em; 
+    text-align: center;
+}
