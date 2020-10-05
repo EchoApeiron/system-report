@@ -41,16 +41,16 @@ $Report += @"
 "@
 
 # Loop through our CPU Array and Print out Relevant Information About Them 
-$p = 1
-foreach ($cpu in $InstalledProcessors) {
+for($p=0; $p -le $InstalledProcessors.Length-1; $p++) {
     $Report += @"
-        <p class="indent">CPU #$($p): <span>$($cpu.Name)</span></p>
-        <p class="indent">CPU #$($p) Speed: <span>$($cpu.MaxClockSpeed)</span></p>
-        <p class="indent">CPU #$($p) Cores: <span>$($cpu.NumberOfCores)</span></p>
-        <p class="indent">CPU #$($p) Threads: <span>$($cpu.NumberOfLogicalProcessors)</span></p>
+        <p class="indent">CPU #$($p+1): <span>$($InstalledProcessors[$p].Name)</span></p>
+        <p class="indent">CPU #$($p+1) Speed: <span>$($InstalledProcessors[$p].MaxClockSpeed)</span></p>
+        <p class="indent">CPU #$($p+1) Cores: <span>$($InstalledProcessors[$p].NumberOfCores)</span></p>
+        <p class="indent">CPU #$($p+1) Threads: <span>$($InstalledProcessors[$p].NumberOfLogicalProcessors)</span></p>
 "@
-    $p++
 }
+
+
 
 # Continue Entering other relevant information we have already collected 
 $Report += @"
@@ -59,15 +59,13 @@ $Report += @"
 "@
 
 # Loop through our Disk Array and Print out Relevant Information About Them
-$c = 1
-foreach ($drive in $HardDrives) {
+for($c=0; $c -le $HardDrives.Length-1; $c++) {
     $Report += @"
-        <p class="indent">Disk #$($c) Drive Letter: <span>$($drive.DeviceID)</span></p>
-        <p class="indent">Disk #$($c) Drive Space: <span>$([math]::Round(($drive.Size / 1024 / 1024 / 1024), 2)) GB</span></p>
-        <p class="indent">Disk #$($c) Free Space: <span>$([math]::Round(($drive.FreeSpace / 1024 / 1024 / 1024), 2)) GB</span></p>
-        <p class="indent">Disk #$($c) File System: <span>$($drive.FileSystem)</span></p>
+        <p class="indent">Disk #$($c+1) Drive Letter: <span>$($HardDrives[$c].DeviceID)</span></p>
+        <p class="indent">Disk #$($c+1) Drive Space: <span>$([math]::Round(($HardDrives[$c].Size / 1024 / 1024 / 1024), 2)) GB</span></p>
+        <p class="indent">Disk #$($c+1) Free Space: <span>$([math]::Round(($HardDrives[$c].FreeSpace / 1024 / 1024 / 1024), 2)) GB</span></p>
+        <p class="indent">Disk #$($c+1) File System: <span>$($HardDrives[$c].FileSystem)</span></p>
 "@
-    $c++
 }
 
 # Loop through our installed Video Cards and add their information to the report now
@@ -75,15 +73,14 @@ $Report += @"
         <p>Video Cards Installed: <span>$($VideoCards.Length)</span></p>
 "@
 
-$v = 1
-foreach ($card in $VideoCards) {
+for($v=0; $v -le $VideoCards.Length-1; $v++) {
     $Report += @"
-        <p class="indent">Video Card #$($v): <span>$($card.Name)</span></p>
-        <p class="indent">Video Card #$($v) Memory: <span>$([math]::Round($card.AdapterRam / 1024 / 1024 / 1024)) GB</span></p>
+        <p class="indent">Video Card #$($v+1): <span>$($VideoCards[$v].Name)</span></p>
+        <p class="indent">Video Card #$($v+1) Memory: <span>$([math]::Round($VideoCards[$v].AdapterRam / 1024 / 1024 / 1024)) GB</span></p>
 "@
-    $v++
 }
 
+# Process information about the current system 
 $Report += @"
     <h3>Top Ten System Processes</h3>
     <table class="indent-table">
@@ -112,8 +109,6 @@ $Footer += @"
 </footer>
 "@
 
-
+# Finally get data converted to a valid HTML page 
 $Report = ConvertTo-Html -Head "<style>$($ReportStyles)</style>" -Title 'Windows System Report' -Body $Header,$Report,$Footer 
-
-
 $Report | Out-File -FilePath $ReportName
