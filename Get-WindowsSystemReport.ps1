@@ -159,7 +159,9 @@ for ($p=0; $p -le $Processes.Length-1; $p++) {
     }
 
         $Report += @"
-        <td><span>$($Processes[$p].Name)</span></td><td><span>$($Processes[$p].Id)</span></td><td><span>$([math]::Round(($Processes[$p].PagedMemorySize / 1024 / 1024), 2)) MB</span></td>
+        <td><span>$($Processes[$p].Name)</span></td>
+        <td><span>$($Processes[$p].Id)</span></td>
+        <td><span>$([math]::Round(($Processes[$p].PagedMemorySize / 1024 / 1024), 2)) MB</span></td>
         </tr>
 "@
 }
