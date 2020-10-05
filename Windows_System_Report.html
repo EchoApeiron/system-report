@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>@import url(https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap); @import url(https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap);  * {     font-family:  'Titillium Web', sans-serif;     padding: 0;     margin: 0; }  body {     background-color: #a5a5a5;     display: flex;      flex-direction: column;     width: 100vw;     align-items: center; }  .system-table {     margin: .25em 2.5em;  }  .masthead {     background-color: #004074;     color: #b8b8b8;     width: 100vw;      text-align: center;     padding: 1em;  }  .report {     background-color: #80c1ff;      width: 30vw;      padding: 0 2em 3em 2em;      align-items: center; }  .report h1,h2,h3,h4,h5 {     padding-top: 1.5em;     padding-bottom: .25em;   }  .report p {     padding: 0 2em;  }  span {     color: #363636;     font-family: 'Roboto Mono', monospace; }  .alt-row {     background-color: #539bdd; }  .indent {     margin-left: 1em;  }  table, th, td {      border: 1px solid black;      border-collapse: collapse; }  th, td {      padding: .25em .75em; }  .indent-table {      margin-top: .5em;      margin-left: 2em;  }   .footer {     background-color: #004074;     color: #b8b8b8;     width: 100vw;      padding: 2em;      text-align: center; }</style>
+</head><body>
+<header class="masthead">
+    <h1>System Statistics</h1>
+</header>
+<main class="report">
+        <h2>System Summary</h2>
+        <p>Computer Name: <span>PHOBOS</span></p>
+        <p>Operating System: <span>Windows 10 Pro N</span></p>
+        <p>OS Version: <span>10.0.19041</span></p>
+        <p>OS Build: <span>19041</span></p>
+        <h3>Hardware Profile</h3>
+        <p>Motherboard Manufacturer: <span>Gigabyte Technology Co., Ltd.</span></p>
+        <p class="indent">Motherboard Model: <span>B450 AORUS PRO WIFI</span></p>
+        <p>Installed Processors: <span>1</span></p>
+        <table class="system-table">
+            <tr>
+                <th>CPU</th><th>Frequency</th><th>Cores</th><th>Threads</th>
+            </tr>            <tr class="alt-row">                <td><span>AMD Ryzen 5 1500X Quad-Core Processor          </span></td>
+                <td><span>3.5 GHz</span></td>
+                <td><span>4</span></td>
+                <td><span>8</span></td>
+            </tr>        </table>        <p>Installed Memory: <span>16 GB</span></p>
+        <p>Installed Hard Drives: <span>2</span></p>
+        <table class="system-table">
+            <tr>
+                <th>Drive Letter</th><th>Drive Space</th><th>Free Space</th><th>File System</th>
+            </tr>            <tr class="alt-row">                <td><span>C:</span></td>
+                <td><span>237.87 GB</span></td>
+                <td><span>133.87 GB</span></td>
+                <td><span>NTFS</span></td>
+            </tr>            <tr>                <td><span>X:</span></td>
+                <td><span>1862.89 GB</span></td>
+                <td><span>1188.96 GB</span></td>
+                <td><span>NTFS</span></td>
+            </tr>        </table>        <p>Video Cards Installed: <span>1</span></p>
+        <table class="system-table">
+            <tr>
+                <th>Video Card</th><th>Video Card Memory</th>
+            </tr>            <tr class="alt-row">                <td><span>NVIDIA GeForce GTX 1070 Ti</span></td>
+                <td><span>4 GB</span></td>
+            </tr>        </table>    <h3>Heavy System Processes</h3>
+    <table class="indent-table">
+        <tr>
+            <th>Process Name</th><th>Process ID</th><th>Memory Used</th>
+        </tr>            <tr class="alt-row">        <td><span>Discord</span></td><td><span>4168</span></td><td><span>693.75 MB</span></td>
+        </tr>            <tr>        <td><span>chrome</span></td><td><span>11212</span></td><td><span>472.5 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>chrome</span></td><td><span>9988</span></td><td><span>400.68 MB</span></td>
+        </tr>            <tr>        <td><span>chrome</span></td><td><span>7208</span></td><td><span>322.75 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>Code</span></td><td><span>2268</span></td><td><span>273.47 MB</span></td>
+        </tr>            <tr>        <td><span>Code</span></td><td><span>14192</span></td><td><span>201.93 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>chrome</span></td><td><span>9716</span></td><td><span>200.38 MB</span></td>
+        </tr>            <tr>        <td><span>pwsh</span></td><td><span>12180</span></td><td><span>194.27 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>SearchApp</span></td><td><span>8044</span></td><td><span>188.25 MB</span></td>
+        </tr>            <tr>        <td><span>Discord</span></td><td><span>11676</span></td><td><span>166.25 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>Code</span></td><td><span>13988</span></td><td><span>163.44 MB</span></td>
+        </tr>            <tr>        <td><span>chrome</span></td><td><span>10336</span></td><td><span>127.54 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>explorer</span></td><td><span>6988</span></td><td><span>126.5 MB</span></td>
+        </tr>            <tr>        <td><span>GitHubDesktop</span></td><td><span>6684</span></td><td><span>109.5 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>dwm</span></td><td><span>1252</span></td><td><span>108.27 MB</span></td>
+        </tr>            <tr>        <td><span>GitHubDesktop</span></td><td><span>2284</span></td><td><span>93.38 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>chrome</span></td><td><span>13948</span></td><td><span>85.71 MB</span></td>
+        </tr>            <tr>        <td><span>steamwebhelper</span></td><td><span>12936</span></td><td><span>84.62 MB</span></td>
+        </tr>            <tr class="alt-row">        <td><span>steam</span></td><td><span>10228</span></td><td><span>71.58 MB</span></td>
+        </tr>            <tr>        <td><span>chrome</span></td><td><span>4648</span></td><td><span>66.28 MB</span></td>
+        </tr>        </table>
+</main>
+<footer class="footer">
+    <p>Report Ran On: 10-04-2020 22:27</p>
+</footer>
+<table>
+</table>
+</body></html>

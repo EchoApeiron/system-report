@@ -1,7 +1,6 @@
 ### Variables for Reporting File ### 
 $GeneratedDate = Get-Date -Format "MM-dd-yyyy HH:mm"
 $ReportName = 'Windows_System_Report.html'
-$ReportStyles = Get-Content .\styles.css
 
 #### System Information Collection ####
 $ComputerInfo = Get-ComputerInfo
@@ -12,7 +11,7 @@ $HardDrives = Get-CimInstance win32_logicaldisk # This is an array of objects an
 ### Video Card Statistics 
 $VideoCards = Get-CimInstance Win32_VideoController # This is an array of objects and needs to be iterated 
 ### Process Information 
-$Processes = Get-Process | Sort-Object PagedMemorySize -Descending | Select-Object -First 10
+$Processes = Get-Process | Sort-Object PagedMemorySize -Descending | Select-Object -First 20
 
 # Check if report was ran previously, if so remove old report so we can recreate the file
 if ([System.IO.File]::Exists($ReportName)) {
@@ -22,7 +21,7 @@ if ([System.IO.File]::Exists($ReportName)) {
 # Start building our HTML Report with our Header Template
 $Header = @"
 <header class="masthead">
-    <h1>System Report</h1>
+    <h1>System Statistics</h1>
 </header>
 <main class="report">
 "@
@@ -36,63 +35,131 @@ $Report += @"
         <p>OS Build: <span>$($ComputerInfo.OsBuildNumber)</span></p>
         <h3>Hardware Profile</h3>
         <p>Motherboard Manufacturer: <span>$($ComputerInfo.CsManufacturer)</span></p>
-        <p>Motherboard Model: <span>$($ComputerInfo.CsModel)</span></p>
+        <p class="indent">Motherboard Model: <span>$($ComputerInfo.CsModel)</span></p>
         <p>Installed Processors: <span>$($InstalledProcessors.Length)</span></p>
+        <table class="system-table">
+            <tr>
+                <th>CPU</th><th>Frequency</th><th>Cores</th><th>Threads</th>
+            </tr>
 "@
 
 # Loop through our CPU Array and Print out Relevant Information About Them 
-for($p=0; $p -le $InstalledProcessors.Length-1; $p++) {
+for ($p=0; $p -le $InstalledProcessors.Length-1; $p++) {
+    if (!($p % 2)) {
+        $Report += @"
+            <tr class="alt-row">
+"@
+    }
+    else {
+        $Report += @"
+            <tr>
+"@
+    }
+
     $Report += @"
-        <p class="indent">CPU #$($p+1): <span>$($InstalledProcessors[$p].Name)</span></p>
-        <p class="indent">CPU #$($p+1) Speed: <span>$($InstalledProcessors[$p].MaxClockSpeed)</span></p>
-        <p class="indent">CPU #$($p+1) Cores: <span>$($InstalledProcessors[$p].NumberOfCores)</span></p>
-        <p class="indent">CPU #$($p+1) Threads: <span>$($InstalledProcessors[$p].NumberOfLogicalProcessors)</span></p>
+                <td><span>$($InstalledProcessors[$p].Name)</span></td>
+                <td><span>$($InstalledProcessors[$p].MaxClockSpeed / 1000) GHz</span></td>
+                <td><span>$($InstalledProcessors[$p].NumberOfCores)</span></td>
+                <td><span>$($InstalledProcessors[$p].NumberOfLogicalProcessors)</span></td>
+            </tr>
 "@
 }
 
-
+$Report += @"
+        </table>
+"@
 
 # Continue Entering other relevant information we have already collected 
 $Report += @"
         <p>Installed Memory: <span>$($ComputerInfo.CsPhysicallyInstalledMemory / 1024 / 1024) GB</span></p>
         <p>Installed Hard Drives: <span>$($HardDrives.Length)</span></p>
+        <table class="system-table">
+            <tr>
+                <th>Drive Letter</th><th>Drive Space</th><th>Free Space</th><th>File System</th>
+            </tr>
 "@
 
 # Loop through our Disk Array and Print out Relevant Information About Them
-for($c=0; $c -le $HardDrives.Length-1; $c++) {
+for ($c=0; $c -le $HardDrives.Length-1; $c++) {
+    if (!($c % 2)) {
+        $Report += @"
+            <tr class="alt-row">
+"@
+    }
+    else {
+        $Report += @"
+            <tr>
+"@
+    }
+
     $Report += @"
-        <p class="indent">Disk #$($c+1) Drive Letter: <span>$($HardDrives[$c].DeviceID)</span></p>
-        <p class="indent">Disk #$($c+1) Drive Space: <span>$([math]::Round(($HardDrives[$c].Size / 1024 / 1024 / 1024), 2)) GB</span></p>
-        <p class="indent">Disk #$($c+1) Free Space: <span>$([math]::Round(($HardDrives[$c].FreeSpace / 1024 / 1024 / 1024), 2)) GB</span></p>
-        <p class="indent">Disk #$($c+1) File System: <span>$($HardDrives[$c].FileSystem)</span></p>
+                <td><span>$($HardDrives[$c].DeviceID)</span></td>
+                <td><span>$([math]::Round(($HardDrives[$c].Size / 1024 / 1024 / 1024), 2)) GB</span></td>
+                <td><span>$([math]::Round(($HardDrives[$c].FreeSpace / 1024 / 1024 / 1024), 2)) GB</span></td>
+                <td><span>$($HardDrives[$c].FileSystem)</span></td>
+            </tr>
 "@
 }
+
+$Report += @"
+        </table>
+"@
 
 # Loop through our installed Video Cards and add their information to the report now
 $Report += @"
         <p>Video Cards Installed: <span>$($VideoCards.Length)</span></p>
+        <table class="system-table">
+            <tr>
+                <th>Video Card</th><th>Video Card Memory</th>
+            </tr>
 "@
 
-for($v=0; $v -le $VideoCards.Length-1; $v++) {
+for ($v=0; $v -le $VideoCards.Length-1; $v++) {
+    if (!($v % 2)) {
+        $Report += @"
+            <tr class="alt-row">
+"@
+    }
+    else {
+        $Report += @"
+            <tr>
+"@
+    }
+
     $Report += @"
-        <p class="indent">Video Card #$($v+1): <span>$($VideoCards[$v].Name)</span></p>
-        <p class="indent">Video Card #$($v+1) Memory: <span>$([math]::Round($VideoCards[$v].AdapterRam / 1024 / 1024 / 1024)) GB</span></p>
+                <td><span>$($VideoCards[$v].Name)</span></td>
+                <td><span>$([math]::Round($VideoCards[$v].AdapterRam / 1024 / 1024 / 1024)) GB</span></td>
+            </tr>
 "@
 }
 
+$Report += @"
+        </table>
+"@
+
 # Process information about the current system 
 $Report += @"
-    <h3>Top Ten System Processes</h3>
+    <h3>Heavy System Processes</h3>
     <table class="indent-table">
         <tr>
             <th>Process Name</th><th>Process ID</th><th>Memory Used</th>
         </tr>
 "@
 
-foreach($Process in $Processes) {
-    $Report += @"
-        <tr>
-            <td><span>$($Process.Name)</span></td><td><span>$($Process.Id)</span></td><td><span>$([math]::Round(($Process.PagedMemorySize / 1024 / 1024), 2)) MB</span></td>
+for ($p=0; $p -le $Processes.Length-1; $p++) {
+    if (!($p % 2)) {
+        $Report += @"
+            <tr class="alt-row">
+"@
+    }
+    else {
+        $Report += @"
+            <tr>
+"@
+    }
+
+        $Report += @"
+        <td><span>$($Processes[$p].Name)</span></td><td><span>$($Processes[$p].Id)</span></td><td><span>$([math]::Round(($Processes[$p].PagedMemorySize / 1024 / 1024), 2)) MB</span></td>
         </tr>
 "@
 }
@@ -110,5 +177,5 @@ $Footer += @"
 "@
 
 # Finally get data converted to a valid HTML page 
-$Report = ConvertTo-Html -Head "<style>$($ReportStyles)</style>" -Title 'Windows System Report' -Body $Header,$Report,$Footer 
+$Report = ConvertTo-Html -Head "<style>$(Get-Content .\styles.css)</style>" -Title 'Windows System Report' -Body $Header,$Report,$Footer 
 $Report | Out-File -FilePath $ReportName
